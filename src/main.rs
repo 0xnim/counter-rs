@@ -62,6 +62,9 @@ async fn main() -> std::io::Result<()> {
         redis,
         download_counts: Mutex::new(HashMap::new()),
     });
+    
+    // Use port variable 
+    let port = env::var("PORT").unwrap_or_else(|_| "8080".to_string());
 
     // Start the Actix HTTP server
     HttpServer::new(move || {
@@ -69,9 +72,8 @@ async fn main() -> std::io::Result<()> {
             .app_data(app_state.clone())
             .service(download)
             .service(read)
-            .service(health)
     })
-    .bind("127.0.0.1:80")?
+    .bind(format!("0.0.0.0:{}", port))?
     .run()
     .await
 }
