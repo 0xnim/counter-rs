@@ -71,7 +71,7 @@ async fn main() -> std::io::Result<()> {
             .service(read)
             .service(health)
     })
-    .bind("127.0.0.1:8080")?
+    .bind("127.0.0.1:80")?
     .run()
     .await
 }
