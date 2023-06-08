@@ -10,6 +10,12 @@ struct AppState {
     download_counts: Mutex<HashMap<String, i64>>,
 }
 
+#[get("/health")]
+async fn health() -> impl Responder {
+    HttpResponse::Ok().body("OK")
+}
+
+
 #[get("/download/{token}")]
 async fn download(web::Path(token): web::Path<String>, data: web::Data<AppState>) -> impl Responder {
     // Increment the download count for the download token
@@ -63,6 +69,7 @@ async fn main() -> std::io::Result<()> {
             .app_data(app_state.clone())
             .service(download)
             .service(read)
+            .service(health)
     })
     .bind("127.0.0.1:8080")?
     .run()
