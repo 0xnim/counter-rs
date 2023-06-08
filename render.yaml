@@ -1,0 +1,10 @@
+version: 1
+services:
+  - name: my-api
+    buildCommand: "cargo build --release"
+    startCommand: "cargo run --release"
+    env:
+      - key: REDIS_URL
+        value: $REDIS_URL
+      - key: PORT
+        value: $PORT
